@@ -1,6 +1,7 @@
 package ar.edu.ub.ubapplication;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +17,7 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 
-public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
+public class MainActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int CAMERAPERMISSIONREQUESTCODE = 1;
