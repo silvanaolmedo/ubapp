@@ -16,7 +16,7 @@ import ar.edu.ub.ubapplication.domain.extractor.FeatureExtractor;
  * Created by Silvana Olmedo on 20/05/2018.
  */
 
-public class PatternFactory implements Factory<Mat, Pattern>{
+public class PatternFactory {
 
     private static final double DEFAULT_DATA_VALUE = 0.0;
     private FeatureExtractor featureExtractor;
@@ -28,11 +28,12 @@ public class PatternFactory implements Factory<Mat, Pattern>{
     /**
      * Creates a pattern object based on a Mat of the reference image
      * @param input reference image in gray scale
+     * @param id an id for the reference image
      * @return a pattern object of the reference image
      */
-    @Override
-    public Pattern create(Mat input) {
+    public Pattern create(Mat input, int id) {
         Pattern pattern = new Pattern();
+        pattern.setId(id);
         pattern.setFeatureExtractionResult(featureExtractor.extract(input));
         pattern.setReferenceCornersIn2d(this.createReferenceCornersIn2d(input));
         pattern.setReferenceCornersIn3d(this.createReferenceCornersIn3d(input));
