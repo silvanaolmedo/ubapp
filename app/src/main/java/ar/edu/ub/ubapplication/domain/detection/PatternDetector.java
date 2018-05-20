@@ -12,13 +12,13 @@ import ar.edu.ub.ubapplication.domain.matcher.PatternMatchingResult;
  * Created by Silvana Olmedo on 20/05/2018.
  */
 
-public class PatternDetection {
+public class PatternDetector {
 
-    private static final String TAG = PatternDetection.class.getSimpleName();
+    private static final String TAG = PatternDetector.class.getSimpleName();
     private PatternMatcher patternMatcher;
 
     //TODO: update constructor with HomographyEstimator object
-    public PatternDetection(PatternMatcher patternMatcher) {
+    public PatternDetector(PatternMatcher patternMatcher) {
         this.patternMatcher = patternMatcher;
     }
 
