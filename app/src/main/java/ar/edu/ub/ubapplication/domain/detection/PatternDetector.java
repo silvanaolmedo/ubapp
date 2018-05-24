@@ -8,7 +8,8 @@ import ar.edu.ub.ubapplication.domain.matcher.PatternMatcher;
 import ar.edu.ub.ubapplication.domain.matcher.PatternMatchingResult;
 
 /**
- * <p>Detects a pattern in an scene by finding their matches and calculating the homography</p>
+ * <p>Detects a pattern in an scene by finding their matches
+ * and detecting the corners of the scene</p>
  * Created by Silvana Olmedo on 20/05/2018.
  */
 
@@ -16,10 +17,11 @@ public class PatternDetector {
 
     private static final String TAG = PatternDetector.class.getSimpleName();
     private PatternMatcher patternMatcher;
+    private CornersDetector cornersDetector;
 
-    //TODO: update constructor with HomographyEstimator object
-    public PatternDetector(PatternMatcher patternMatcher) {
+    public PatternDetector(PatternMatcher patternMatcher, CornersDetector cornersDetector) {
         this.patternMatcher = patternMatcher;
+        this.cornersDetector = cornersDetector;
     }
 
     public PatternDetectionResult detect(Pattern pattern, Mat mat){
@@ -27,8 +29,16 @@ public class PatternDetector {
 
         Log.d(TAG, "Detecting pattern in scene");
         PatternMatchingResult matchingResult = patternMatcher.match(pattern, mat);
-        //TODO: differentiate between source points and destination points
-        //TODO: calculate homography and update detection result
+
+        CornersDetectionInput cornersDetectionInput = new CornersDetectionInput();
+        cornersDetectionInput.setPatternMatchingResult(matchingResult);
+        cornersDetectionInput.setReferenceCorners(pattern.getReferenceCornersIn2d());
+
+        CornersDetectionResult cornersDetectionResult = cornersDetector.detect(cornersDetectionInput);
+
+        result.setPatternDetected(cornersDetectionResult.areCornersDetected());
+        result.setSceneCorners(cornersDetectionResult.getSceneCorners());
+
         return result;
     }
 

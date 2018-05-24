@@ -10,7 +10,6 @@ import org.opencv.core.MatOfKeyPoint;
 
 public class PatternMatchingResult {
 
-    private boolean areEnoughMatches;
     private MatOfDMatch matches;
     private MatOfKeyPoint referenceKeyPoints;
     private MatOfKeyPoint sceneKeyPoints;
@@ -39,11 +38,4 @@ public class PatternMatchingResult {
         this.referenceKeyPoints = referenceKeyPoints;
     }
 
-    public boolean areEnoughMatches() {
-        return areEnoughMatches;
-    }
-
-    public void setAreEnoughMatches(boolean areEnoughMatches) {
-        this.areEnoughMatches = areEnoughMatches;
-    }
 }

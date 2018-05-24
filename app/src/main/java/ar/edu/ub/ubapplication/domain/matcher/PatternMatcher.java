@@ -22,7 +22,6 @@ import static org.opencv.features2d.DescriptorMatcher.BRUTEFORCE_HAMMING;
 public class PatternMatcher {
 
     private static final String TAG = PatternMatcher.class.getSimpleName();
-    private static final int MINIMUM_MATCHES = 15;
     private FeatureExtractor featureExtractor;
     private DescriptorMatcher descriptorMatcher;
 
@@ -38,7 +37,6 @@ public class PatternMatcher {
         Log.d(TAG, "Match scene descriptors to reference descriptors");
         MatOfDMatch matches = this.getMatches(targetFeatures.getDescriptors(), pattern.getReferenceDescriptors());
 
-        result.setAreEnoughMatches(matches.toList().size() > MINIMUM_MATCHES);
         result.setMatches(matches);
         result.setSceneKeyPoints(targetFeatures.getKeyPoints());
         result.setReferenceKeyPoints(pattern.getReferenceKeyPoints());
