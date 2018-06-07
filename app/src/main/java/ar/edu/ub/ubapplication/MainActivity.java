@@ -3,6 +3,7 @@ package ar.edu.ub.ubapplication;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.PatternMatcher;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +18,15 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 
+import ar.edu.ub.ubapplication.domain.MainController;
+import ar.edu.ub.ubapplication.domain.detection.PatternDetector;
+
 public class MainActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int CAMERAPERMISSIONREQUESTCODE = 1;
     private CameraBridgeViewBase cameraView;
+    private MainController mainController;
 
     static {
         if (!OpenCVLoader.initDebug())
@@ -37,6 +42,8 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
                 case LoaderCallbackInterface.SUCCESS:
                     Log.d(TAG, "OpenCV loaded successfully");
                     cameraView.enableView();
+                    mainController = new MainController(MainActivity.this);
+                    mainController.addPattern(R.drawable.diez_pesos);
                     break;
                 default:
                     super.onManagerConnected(status);
@@ -96,7 +103,9 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        return inputFrame.rgba();
+        Mat frame = inputFrame.rgba();
+        mainController.processFrame(frame);
+        return frame;
     }
 
     private void askForPermissions() {

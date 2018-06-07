@@ -1,4 +1,4 @@
-package ar.edu.ub.ubapplication.domain.detection;
+package ar.edu.ub.ubapplication.domain.detection.model;
 
 import org.opencv.core.Mat;
 

@@ -7,6 +7,8 @@ import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.imgproc.Imgproc;
 
+import ar.edu.ub.ubapplication.domain.detection.model.CornersDetectionInput;
+import ar.edu.ub.ubapplication.domain.detection.model.CornersDetectionResult;
 import ar.edu.ub.ubapplication.domain.estimator.HomographyEstimationInput;
 import ar.edu.ub.ubapplication.domain.estimator.HomographyEstimationResult;
 import ar.edu.ub.ubapplication.domain.estimator.HomographyEstimator;
@@ -32,7 +34,7 @@ public class CornersDetector {
         this.homographyEstimator = homographyEstimator;
     }
 
-    public CornersDetectionResult detect(CornersDetectionInput cornersDetectionInput){
+    public CornersDetectionResult detect(CornersDetectionInput cornersDetectionInput) {
         CornersDetectionResult result = new CornersDetectionResult();
         PatternMatchingResult patternDetectionResult = cornersDetectionInput.getPatternMatchingResult();
 
@@ -44,22 +46,24 @@ public class CornersDetector {
 
         HomographyEstimationResult homographyEstimationResult = this.homographyEstimator.estimate(input);
 
-        Mat sceneCorners = homographyEstimationResult.getCandidateSceneCorners();
-        if(Imgproc.isContourConvex(this.convertToMatOfPoint(sceneCorners))){
-            result.setAreCornersDetected(true);
-            result.setSceneCorners(this.convertToMatOfPoint2f(sceneCorners));
+        if (homographyEstimationResult.isHomographyEstimated()) {
+            Mat sceneCorners = homographyEstimationResult.getCandidateSceneCorners();
+            if (Imgproc.isContourConvex(this.convertToMatOfPoint(sceneCorners))) {
+                result.setAreCornersDetected(true);
+                result.setSceneCorners(this.convertToMatOfPoint2f(sceneCorners));
+            }
         }
 
         return result;
     }
 
-    private MatOfPoint convertToMatOfPoint(Mat mat){
+    private MatOfPoint convertToMatOfPoint(Mat mat) {
         MatOfPoint matOfPoint = new MatOfPoint();
         mat.convertTo(matOfPoint, CvType.CV_32S);
         return matOfPoint;
     }
 
-    private MatOfPoint2f convertToMatOfPoint2f(Mat mat){
+    private MatOfPoint2f convertToMatOfPoint2f(Mat mat) {
         MatOfPoint2f matOfPoint2f = new MatOfPoint2f();
         double[] sceneCorner0 =
                 mat.get(0, 0);

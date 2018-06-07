@@ -4,7 +4,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint3f;
 
-import ar.edu.ub.ubapplication.domain.detection.Pattern;
+import ar.edu.ub.ubapplication.domain.detection.model.Pattern;
 import ar.edu.ub.ubapplication.domain.extractor.FeatureExtractor;
 
 /**

@@ -7,7 +7,7 @@ import org.opencv.core.MatOfDMatch;
 import org.opencv.features2d.BFMatcher;
 import org.opencv.features2d.DescriptorMatcher;
 
-import ar.edu.ub.ubapplication.domain.detection.Pattern;
+import ar.edu.ub.ubapplication.domain.detection.model.Pattern;
 import ar.edu.ub.ubapplication.domain.extractor.FeatureExtractionResult;
 import ar.edu.ub.ubapplication.domain.extractor.FeatureExtractor;
 

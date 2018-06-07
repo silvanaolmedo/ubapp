@@ -4,6 +4,10 @@ import android.util.Log;
 
 import org.opencv.core.Mat;
 
+import ar.edu.ub.ubapplication.domain.detection.model.CornersDetectionInput;
+import ar.edu.ub.ubapplication.domain.detection.model.CornersDetectionResult;
+import ar.edu.ub.ubapplication.domain.detection.model.Pattern;
+import ar.edu.ub.ubapplication.domain.detection.model.PatternDetectionResult;
 import ar.edu.ub.ubapplication.domain.matcher.PatternMatcher;
 import ar.edu.ub.ubapplication.domain.matcher.PatternMatchingResult;
 
