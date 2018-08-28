@@ -3,10 +3,11 @@ package ar.edu.ub.ubapplication;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.PixelFormat;
+import android.opengl.GLSurfaceView;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -15,13 +16,13 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Mat;
 
-public class MainActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2{
+public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int CAMERAPERMISSIONREQUESTCODE = 1;
     private CameraBridgeViewBase cameraView;
+    private GLSurfaceView glSurfaceView;
 
     static {
         if (!OpenCVLoader.initDebug())
@@ -48,12 +49,22 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         askForPermissions();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         cameraView = findViewById(R.id.openCvView);
         cameraView.setVisibility(SurfaceView.VISIBLE);
-        cameraView.setCvCameraViewListener(this);
+        cameraView.setCvCameraViewListener(new DefaultCameraViewListener());
+
+        glSurfaceView = findViewById(R.id.glView);
+        glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        DefaultRenderer defaultRenderer = new DefaultRenderer(this);
+        defaultRenderer.isPatternFound(true);
+        glSurfaceView.setRenderer(defaultRenderer);
+        glSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        glSurfaceView.setZOrderMediaOverlay(true);
     }
 
     @Override
@@ -69,6 +80,9 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         if(cameraView != null){
             cameraView.disableView();
         }
+        if(glSurfaceView != null){
+            glSurfaceView.onPause();
+        }
         super.onPause();
     }
 
@@ -82,31 +96,17 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
             Log.d(TAG, "OpenCV library found inside package. Using it!");
             loaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
-    }
-
-    @Override
-    public void onCameraViewStarted(int width, int height) {
-
-    }
-
-    @Override
-    public void onCameraViewStopped() {
-
-    }
-
-    @Override
-    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        return inputFrame.rgba();
+        if(glSurfaceView != null){
+            glSurfaceView.onResume();
+        }
     }
 
     private void askForPermissions() {
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     CAMERAPERMISSIONREQUESTCODE);
 
         }
-
     }
 }
