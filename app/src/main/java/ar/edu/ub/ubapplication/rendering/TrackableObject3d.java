@@ -1,5 +1,6 @@
 package ar.edu.ub.ubapplication.rendering;
 
+import android.graphics.DashPathEffect;
 import android.util.Log;
 
 import com.threed.jpct.Matrix;
@@ -41,16 +42,24 @@ public class TrackableObject3d {
         if (markerVisible) {
             Log.i(TAG, String.format("Object3d %s checking pose %s", id, projMatrix));
             float[] transformation = DefaultARProcessor.getInstance().getPose(id);
+            float centerX = DefaultARProcessor.getInstance().getX(id);
+            float centerY = DefaultARProcessor.getInstance().getY(id);
             projMatrix.setDump(transformation);
             projMatrix.transformToGL();
             clearTranslation();
             translate(projMatrix.getTranslation());
             setRotationMatrix(projMatrix);
+            updateOrigin(centerX, centerY);
             // Also, update all the lights
             Log.i(TAG, String.format("Object3d %s updating light", id));
             light.update(projMatrix.getTranslation());
             light.setVisibility(true);
         }
+    }
+
+    private void updateOrigin(float centerX, float centerY) {
+        Log.i(TAG, String.format("Object3d %s updating center (%s, %s)", id, centerX, centerY));
+        Log.i(TAG, String.format("Object3d %s actualCenter %s", id, this.model.getTransformedCenter()));
     }
 
     private void setRotationMatrix(Matrix projMatrix) {

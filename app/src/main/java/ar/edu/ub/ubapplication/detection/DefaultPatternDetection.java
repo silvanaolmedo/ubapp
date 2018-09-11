@@ -19,6 +19,7 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +69,8 @@ public class DefaultPatternDetection implements PatternDetector<FeaturePattern> 
     private final float[] gLPose = new float[16];
 
     private final Scalar lineColor = new Scalar(0, 255, 0);
+
+    private double centerX, centerY;
 
     public DefaultPatternDetection(CameraProjectionAdapter cameraProjectionAdapter) {
         this.cameraProjectionAdapter = cameraProjectionAdapter;
@@ -199,7 +202,14 @@ public class DefaultPatternDetection implements PatternDetector<FeaturePattern> 
                 new Point(sceneCorner2[0], sceneCorner2[1]),
                 new Point(sceneCorner3[0], sceneCorner3[1]));
 
-
+        Log.i(TAG, "Calculating center of pattern");
+        Moments moments = Imgproc.moments(sceneCorners2D);
+        centerX = (moments.get_m10() / moments.get_m00());
+        centerY = (moments.get_m01() / moments.get_m00());
+        Log.i(TAG, "CenterX: "+centerX);
+        Log.i(TAG, "CenterY: "+centerY);
+        pattern.setX((float)centerX);
+        pattern.setY((float)centerY);
 
         final MatOfDouble projection = this.cameraProjectionAdapter.getCameraMatrix();
         Log.i(TAG, "Camera projection "+projection.dump());
@@ -305,5 +315,7 @@ public class DefaultPatternDetection implements PatternDetector<FeaturePattern> 
                 new Point(sceneCorners2D.get(3, 0)), lineColor, 4);
         Imgproc.line(dst, new Point(sceneCorners2D.get(3,0)),
                 new Point(sceneCorners2D.get(0, 0)), lineColor, 4);
+
+        Imgproc.circle(dst, new Point(centerX, centerY), 10, new Scalar(255, 0, 0), -1);
     }
 }

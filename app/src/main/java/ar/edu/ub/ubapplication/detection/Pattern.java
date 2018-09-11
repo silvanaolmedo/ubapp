@@ -8,8 +8,16 @@ public interface Pattern {
 
     float[] getPose();
 
+    float getX();
+
+    float getY();
+
     void setVisible(boolean visible);
 
     void setPose(float[] pose);
+
+    void setX(float x);
+
+    void setY(float y);
 
 }

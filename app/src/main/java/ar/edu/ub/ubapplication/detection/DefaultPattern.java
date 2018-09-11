@@ -16,6 +16,7 @@ public class DefaultPattern implements FeaturePattern {
     private boolean visible;
     private float[] pose;
     private MatOfPoint2f sceneCorners;
+    private float x, y;
 
     @Override
     public int getId() {
@@ -61,6 +62,16 @@ public class DefaultPattern implements FeaturePattern {
         return this.sceneCorners;
     }
 
+    @Override
+    public float getX() {
+        return this.x;
+    }
+
+    @Override
+    public float getY() {
+        return this.y;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -100,5 +111,15 @@ public class DefaultPattern implements FeaturePattern {
     @Override
     public void setSceneCornersIn2d(MatOfPoint2f sceneCorners) {
         this.sceneCorners = sceneCorners;
+    }
+
+    @Override
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    @Override
+    public void setY(float y) {
+        this.y = y;
     }
 }

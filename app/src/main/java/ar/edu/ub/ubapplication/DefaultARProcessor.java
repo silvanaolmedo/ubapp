@@ -133,6 +133,20 @@ public class DefaultARProcessor implements ARProcessor {
         return (cameraProjectionAdapter != null ? cameraProjectionAdapter.getProjectionGL() : null);
     }
 
+    public float getX(int idPattern){
+        if (!initiatedOpencv) return 0;
+        FeaturePattern pattern = this.find(idPattern);
+        Log.i(TAG, String.format("Checking centerY for pattern %s", idPattern));
+        return (pattern != null ? pattern.getX() : 0);
+    }
+
+    public float getY(int idPattern){
+        if (!initiatedOpencv) return 0;
+        FeaturePattern pattern = this.find(idPattern);
+        Log.i(TAG, String.format("Checking centerX for pattern %s", idPattern));
+        return (pattern != null ? pattern.getY() : 0);
+    }
+
     public Float getAspectRatio() {
         if (!initiatedOpencv) return null;
         Log.i(TAG, "Obtaining projectionGL");
