@@ -4,9 +4,9 @@
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="ar.edu.ub.ubapplication.MainActivity">
+    tools:context="ar.edu.ub.ubapplication.ARActivity">
 
-    <org.opencv.android.JavaCameraView
+    <ar.edu.ub.ubapplication.camera.CameraProjectionAdapter
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"

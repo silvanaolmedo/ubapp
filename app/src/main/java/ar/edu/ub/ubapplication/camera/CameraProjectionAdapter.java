@@ -1,12 +1,12 @@
-package ar.edu.ub.ubapplication;
+package ar.edu.ub.ubapplication.camera;
 
 import android.content.Context;
 import android.hardware.Camera;
 import android.opengl.Matrix;
+import android.util.AttributeSet;
 
 import org.opencv.android.JavaCameraView;
 import org.opencv.core.CvType;
-import org.opencv.core.Mat;
 import org.opencv.core.MatOfDouble;
 
 public class CameraProjectionAdapter extends JavaCameraView implements CameraAdapter, OpenGLProjection {
@@ -23,13 +23,16 @@ public class CameraProjectionAdapter extends JavaCameraView implements CameraAda
     private MatOfDouble projectionCV;
     private boolean projectionDirtyCV = true;
 
+    public CameraProjectionAdapter(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-    public CameraProjectionAdapter(Context context, int cameraId) {
-        super(context, cameraId);
+    public Camera.Parameters getCameraParameters(){
+        return mCamera.getParameters();
     }
 
     @Override
-    public Mat getCameraMatrix() {
+    public MatOfDouble getCameraMatrix() {
         if (projectionDirtyCV) {
             if (projectionCV == null) {
                 projectionCV = new MatOfDouble();

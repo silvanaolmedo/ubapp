@@ -1,4 +1,4 @@
-package ar.edu.ub.ubapplication;
+package ar.edu.ub.ubapplication.camera;
 
 public interface OpenGLProjection {
 
