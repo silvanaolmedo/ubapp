@@ -38,16 +38,14 @@ public class CameraProjectionAdapter extends JavaCameraView implements CameraAda
                 projectionCV = new MatOfDouble();
                 projectionCV.create(3, 3, CvType.CV_64FC1);
             }
-
-
+            
             Camera.Parameters parameters = mCamera.getParameters();
-            Camera.Size size = parameters.getSupportedPictureSizes().get(0);
 
             fovY = parameters.getVerticalViewAngle();
             fovX = parameters.getHorizontalViewAngle();
 
-            widthPx = size.width;
-            heightPx = size.height;
+            widthPx = mFrameWidth;
+            heightPx = mFrameHeight;
 
             // Note that the FOV, image size, and focal length have
             // the following relationship:
